@@ -394,7 +394,7 @@ int DES_Decrypt(char *cipherFile, char *keyStr, char *plainFile){
 int main(){
     char key[8];
     printf("============================================\n");
-    printf("                    DES\n");
+    printf("                    DES -- test             \n");
     printf("============================================\n");
     printf("Please enter an encryption and decryption key with a length of 8 characters:");
     gets(key);

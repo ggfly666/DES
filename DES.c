@@ -92,10 +92,8 @@ int DES_P_Transform(ElemType data[32]);
 int DES_SBOX(ElemType data[48]);
 int DES_XOR(ElemType R[48], ElemType L[48], int count);
 int DES_Swap(ElemType left[32], ElemType right[32]);
-int DES_EncryptBlock(ElemType plainBlock[8], ElemType subKeys[16][48],
-                     ElemType cipherBlock[8]);
-int DES_DecryptBlock(ElemType cipherBlock[8], ElemType subKeys[16][48],
-                     ElemType plainBlock[8]);
+int DES_EncryptBlock(ElemType plainBlock[8], ElemType subKeys[16][48], ElemType cipherBlock[8]);
+int DES_DecryptBlock(ElemType cipherBlock[8], ElemType subKeys[16][48], ElemType plainBlock[8]);
 int DES_Encrypt(char *plainFile, char *keyStr, char *cipherFile);
 int DES_Decrypt(char *cipherFile, char *keyStr, char *plainFile);
 
@@ -243,8 +241,7 @@ int DES_SBOX(ElemType data[48])
         cur1 = cnt * 6;
         cur2 = cnt << 2;
         line = (data[cur1] << 1) + data[cur1 + 5];
-        row = (data[cur1 + 1] << 3) + (data[cur1 + 2] << 2) +
-              (data[cur1 + 3] << 1) + data[cur1 + 4];
+        row = (data[cur1 + 1] << 3) + (data[cur1 + 2] << 2) + (data[cur1 + 3] << 1) + data[cur1 + 4];
         output = S[cnt][line][row];
         data[cur2] = (output & 0x08) >> 3;
         data[cur2 + 1] = (output & 0x04) >> 2;
@@ -273,8 +270,7 @@ int DES_Swap(ElemType left[32], ElemType right[32])
     return 0;
 }
 
-int DES_EncryptBlock(ElemType plainBlock[8], ElemType subKeys[16][48],
-                     ElemType cipherBlock[8])
+int DES_EncryptBlock(ElemType plainBlock[8], ElemType subKeys[16][48], ElemType cipherBlock[8])
 {
     ElemType plainBits[64];
     ElemType copyRight[48];
@@ -299,8 +295,7 @@ int DES_EncryptBlock(ElemType plainBlock[8], ElemType subKeys[16][48],
     return 0;
 }
 
-int DES_DecryptBlock(ElemType cipherBlock[8], ElemType subKeys[16][48],
-                     ElemType plainBlock[8])
+int DES_DecryptBlock(ElemType cipherBlock[8], ElemType subKeys[16][48], ElemType plainBlock[8])
 {
     ElemType cipherBits[64];
     ElemType copyRight[48];
@@ -371,11 +366,11 @@ int DES_Decrypt(char *cipherFile, char *keyStr, char *plainFile)
     ElemType plainBlock[8], cipherBlock[8], keyBlock[8];
     ElemType bKey[64];
     ElemType subKeys[16][48];
-    if ((cipher = fopen(cipherFile, "wb")) == NULL)
+    if ((cipher = fopen(cipherFile, "rb")) == NULL)
     {
         return CIPHER_OPEN_ERROR;
     }
-    if ((plain = fopen(plainFile, "rb")) == NULL)
+    if ((plain = fopen(plainFile, "wb")) == NULL)
     {
         return PLAIN_OPEN_ERROR;
     }
